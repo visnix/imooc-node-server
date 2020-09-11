@@ -1,8 +1,35 @@
 # Node.js 从零开发 web server 博客项目
 
-## 首先需要建立数据库和表
+> 首先需要建立数据库和表
 
-常用sql语句
+## mysql 操作
+```
+mysql.server start
+
+mysql.server stop
+
+mysql.server restart
+```
+
+## nginx 操作
+
+代理配置查看 [blog.conf](./html-test/readme.md)
+```
+nginx : 启动nginx
+
+nginx -s reload  ：修改配置后重新加载生效
+
+nginx -s reopen  ：重新打开日志文件
+
+nginx -t -c /path/to/nginx.conf 测试nginx配置文件是否正确
+
+nginx -s stop  :快速停止nginx
+
+nginx -s quit  ：完整有序的停止nginx
+```
+
+## 常用sql语句
+
 ```sql
 -- 建立数据库
 CREATE SCHEMA `myblog`;
