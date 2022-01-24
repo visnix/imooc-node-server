@@ -1,5 +1,71 @@
 # Node.js 从零开发 web server 博客项目
 
+# 安装mysql 和 redis
+```js
+`brew install mysql` // [sequel pro 连接的问题](https://stackoverflow.com/questions/51179516/sequel-pro-and-mysql-connection-failed#answer-54227155)
+`bew install redis`
+```
+
+# 启动mysql和redis
+`mysql.server start`
+`redis-server`
+
+# 创建数据
+```sql
+-- 建立数据库
+CREATE SCHEMA `myblog`;
+
+-- 建立users表
+CREATE TABLE `myblog`.`users` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(20) NOT NULL,
+  `password` VARCHAR(20) NOT NULL,
+  `realname` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`id`));
+
+-- 创建blogs表
+CREATE TABLE `myblog`.`blogs` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(50) NOT NULL,
+  `content` LONGTEXT NOT NULL,
+  `createtime` BIGINT(20) NOT NULL DEFAULT 0,
+  `author` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`id`));
+
+-- 使用myblog表
+use users;
+
+-- 在users表中插入内容
+insert into users (username, `password`, realname) values ('lisi', '123', '李四');
+
+-- 使用myblog表
+use myblog;
+
+-- 添加blogs表内容
+insert into blogs (title, content, createtime, author) values ('标题A', '内容A', '1599798629348', 'zhangsan');
+insert into blogs (title, content, createtime, author) values ('标题B', '内容B', '1599798660472', 'lisi');
+```
+
+# 配置nginx代理
+```sh
+server {
+	listen 9340;
+	server_name localhost;
+        location / {
+                proxy_pass http://localhost:9341;
+        }
+        location /api/ {
+                proxy_pass http://localhost:8000;
+                proxy_set_header Host $host;
+        }
+}
+```
+
+# 启动页面
+`npm start`
+`serve -p 9341 .`
+
+
 > 首先需要建立数据库和表
 
 ## mysql 操作
